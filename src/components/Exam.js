@@ -6,7 +6,7 @@ export default function Exam(props) {
   const { questions } = props;
   const [responses, setResponses] = useState(new Array(questions.length));
 
-  const handleChange = (index, value) => {
+  const handleChange = (index) => (value) => {
     const updatedResponses = [...responses];
     updatedResponses[index] = value;
     setResponses(updatedResponses);
@@ -15,93 +15,80 @@ export default function Exam(props) {
   return (
     <div>
       {questions.map((question, questionIndex) => (
-        <Question
-          {...question}
-          handleChange={handleChange}
-          index={questionIndex}
-        />
+        <Question {...question} handleChange={handleChange(questionIndex)} />
       ))}
     </div>
   );
 }
 
 function Question(props) {
-  const { question, options, maxAnswers, handleChange, index } = props;
-  const isSingleChoice = maxAnswers === 1 && options.length !== 0;
-  const isMultiChoice = maxAnswers > 1;
+  const { question, options, maxAnswers } = props;
+  const isSingleAnswer = maxAnswers === 1 && options.length !== 0;
+  const isMultiAnswer = maxAnswers > 1;
   const isCustomAnswer = options.length === 0;
   return (
     <div>
       <List
         header={
-          <Typography.Title level={5} style={{ textAlign: "left" }}>
+          <Typography.Text strong level={5} style={{ textAlign: "left" }}>
             {question}
-          </Typography.Title>
+          </Typography.Text>
         }
         size="large"
         bordered
-        dataSource={options}
       >
-        {isSingleChoice && (
-          <Radio.Group
-            onChange={(value) => handleChange(index, value)}
-            buttonStyle="outline"
-            style={{ display: "block" }}
-          >
-            <QuestionSingleChoice {...props} />
-          </Radio.Group>
-        )}
-        {isMultiChoice && (
-          <Checkbox.Group
-            onChange={(value) => handleChange(index, value)}
-            buttonStyle="outline"
-            style={{ display: "block" }}
-          >
-            <QuestionMultiChoice {...props} />
-          </Checkbox.Group>
-        )}
-        {isCustomAnswer && <QuestionContent {...props} />}
+        {isSingleAnswer && <SingleAnswer {...props} />}
+        {isMultiAnswer && <MultipleAnswer {...props} />}
+        {isCustomAnswer && <CustomAnswer {...props} />}
       </List>
       <Divider />
     </div>
   );
 }
 
-function QuestionSingleChoice(props) {
-  const { question, options, maxAnswers, handleChange, index } = props;
+function SingleAnswer(props) {
+  const { options, handleChange } = props;
   return (
-    <>
+    <Radio.Group
+      onChange={(event) => handleChange(event.target.value)}
+      buttonStyle="outline"
+      style={{ display: "block" }}
+    >
       {options.map(({ value, label }) => (
         <List.Item>
-          <Radio skipGroup name={question} value={value}>
-            {label}
-          </Radio>
+          <Radio value={value}>{label}</Radio>
         </List.Item>
       ))}
-    </>
+    </Radio.Group>
   );
 }
 
-function QuestionMultiChoice(props) {
-  const { question, options, maxAnswers, handleChange, index } = props;
+function MultipleAnswer(props) {
+  const { options, handleChange } = props;
   return (
-    <>
+    <Checkbox.Group
+      onChange={(value) => handleChange(value)}
+      buttonStyle="outline"
+      style={{ display: "block" }}
+    >
       {options.map(({ value, label }) => (
         <List.Item>
-          <Checkbox value={value} onChange={() => handleChange(index, value)}>
-            {label}
-          </Checkbox>
+          <Checkbox value={value}>{label}</Checkbox>
         </List.Item>
       ))}
-    </>
+    </Checkbox.Group>
   );
 }
 
-function QuestionContent(props) {
-  const { handleChange, index } = props;
+function CustomAnswer(props) {
+  const { handleChange } = props;
+
   return (
     <List.Item>
-      <TextArea rows={4} />
+      <TextArea
+        rows={4}
+        onChange={(event) => handleChange(event.target.value)}
+      />
     </List.Item>
   );
 }
