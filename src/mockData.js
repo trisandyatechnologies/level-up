@@ -1,5 +1,6 @@
 export const MOCK_DATA = [
   {
+    id: "q-1",
     question: "Not a primitive data type",
     maxAnswers: 1,
     options: [
@@ -23,12 +24,14 @@ export const MOCK_DATA = [
     answer: [4],
   },
   {
+    id: "q-2",
     question: "Name one reference data type",
     maxAnswers: 1,
     options: [],
     answer: ["array", "object"],
   },
   {
+    id: "q-3",
     question: "Property to find number of elements in an array",
     maxAnswers: 1,
     options: [
@@ -52,6 +55,7 @@ export const MOCK_DATA = [
     answer: [1],
   },
   {
+    id: "q-4",
     question: "Is HTML a programming language?",
     maxAnswers: 1,
     options: [
@@ -67,6 +71,7 @@ export const MOCK_DATA = [
     answer: [1],
   },
   {
+    id: "q-5",
     question: "JavaScript can be added inside ",
     maxAnswers: 2,
     options: [
