@@ -9,6 +9,8 @@ import { Layout, Menu, Button, theme } from "antd";
 import { useState } from "react";
 import Exam from "./Exam";
 import { MOCK_DATA } from "../mockData";
+import { Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
@@ -30,12 +32,12 @@ const Home = () => {
             {
               key: "1",
               icon: <UserOutlined />,
-              label: "nav 1",
+              label: <Link to="exam">Exam</Link>,
             },
             {
               key: "2",
               icon: <VideoCameraOutlined />,
-              label: "nav 2",
+              label: <Link to="result">Result</Link>,
             },
             {
               key: "3",
@@ -66,7 +68,7 @@ const Home = () => {
             background: colorBgContainer,
           }}
         >
-          <Exam questions={MOCK_DATA} />
+          {<Outlet />}
         </Content>
       </Layout>
     </Layout>

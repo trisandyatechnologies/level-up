@@ -46,7 +46,7 @@ const RESULT_STATUS = {
   NotAttemted: "NotAttempted",
 };
 
-export default function Exam(props) {
+export default function Results(props) {
   const [questions, setQuestions] = useState(props.questions ?? []);
   const [responses, setResponses] = useState({});
   const [inReview, setInReview] = useState(false);
@@ -134,7 +134,7 @@ export default function Exam(props) {
 
   return (
     <Layout style={{ backgroundColor: colorBgContainer }}>
-      <Header style={{ backgroundColor: blue.primary }}>Exam</Header>
+      <Header style={{ backgroundColor: blue.primary }}>Result</Header>
       <Content style={{ marginTop: 16 }}>
         {inReview && <ExamResult tryAgain={resetExam} result={result} />}
         <List size="large">
@@ -148,7 +148,7 @@ export default function Exam(props) {
               inReview={inReview}
             />
           ))}
-          {showUnanswered && questions?.length === 0 && (
+          {showUnanswered && questions.length === 0 && (
             <Result
               icon={<SmileOutlined />}
               title="Looks like you have answered all the questions!"
@@ -179,7 +179,7 @@ export default function Exam(props) {
             <Pagination
               current={currentPage}
               onChange={handlePagination}
-              total={props.questions?.length}
+              total={props.questions.length}
               pageSize={pageSize}
               showSizeChanger
             />
